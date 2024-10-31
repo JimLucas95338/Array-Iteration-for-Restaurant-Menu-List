@@ -1,21 +1,149 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Restaurant Menu</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #e67e22;
+            margin-top: 30px;
+        }
+
+        .menu-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .item-number {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            width: 80px;
+        }
+
+        .item-name {
+            flex-grow: 1;
+            padding: 0 15px;
+        }
+
+        .item-price {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .total-items {
+            text-align: right;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .special {
+            background-color: #fff3e0;
+        }
+
+        .special::after {
+            content: "👨‍🍳 Chef's Special";
+            color: #e67e22;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
- <h1>Restaurant Menu Iteration</h1>
-    <h2>Breakfast Menu</h2>
-    <div id="breakfastTotalItems"></div>
-    <div id="breakfastMenuItems"></div>
+    <h1>Restaurant Menu</h1>
 
-    <h2>Main Course Menu</h2>
-    <div id="maincourseTotalItems"></div>
-    <div id="maincourseMenuItems"></div>
+    <div class="menu-section">
+        <h2>Breakfast Menu</h2>
+        <div id="breakfastTotalItems" class="total-items"></div>
+        <div id="breakfastMenuItems"></div>
+    </div>
 
-    <h2>Dessert Menu</h2>
-    <div id="dessertTotalItems"></div>
-    <div id="dessertMenuItems"></div>
-    <script src="./restaurant_menu.js"></script>
+    <div class="menu-section">
+        <h2>Main Course Menu</h2>
+        <div id="maincourseTotalItems" class="total-items"></div>
+        <div id="maincourseMenuItems"></div>
+    </div>
+
+    <div class="menu-section">
+        <h2>Dessert Menu</h2>
+        <div id="dessertTotalItems" class="total-items"></div>
+        <div id="dessertMenuItems"></div>
+    </div>
+
+    <script>
+        const breakfastMenu = [
+            { name: 'Pancakes', price: 12.99, special: true },
+            { name: 'Eggs Benedict', price: 14.99 },
+            { name: 'Oatmeal', price: 8.99 },
+            { name: 'Frittata', price: 13.99 }
+        ];
+
+        const mainCourseMenu = [
+            { name: 'Steak', price: 29.99, special: true },
+            { name: 'Pasta', price: 18.99 },
+            { name: 'Burger', price: 16.99 },
+            { name: 'Salmon', price: 24.99, special: true }
+        ];
+
+        const dessertMenu = [
+            { name: 'Cake', price: 8.99 },
+            { name: 'Ice Cream', price: 6.99 },
+            { name: 'Pudding', price: 7.99 },
+            { name: 'Fruit Salad', price: 9.99, special: true }
+        ];
+
+        function createMenuHTML(menuItems) {
+            return menuItems.map((item, index) => `
+                <div class="menu-item ${item.special ? 'special' : ''}">
+                    <span class="item-number">Item ${index + 1}:</span>
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-price">$${item.price.toFixed(2)}</span>
+                </div>
+            `).join('');
+        }
+
+        function updateTotalItems(elementId, count) {
+            document.getElementById(elementId).innerHTML = `Total Items: ${count}`;
+        }
+
+        // Initialize menus
+        document.getElementById('breakfastMenuItems').innerHTML = createMenuHTML(breakfastMenu);
+        document.getElementById('maincourseMenuItems').innerHTML = createMenuHTML(mainCourseMenu);
+        document.getElementById('dessertMenuItems').innerHTML = createMenuHTML(dessertMenu);
+
+        // Update totals
+        updateTotalItems('breakfastTotalItems', breakfastMenu.length);
+        updateTotalItems('maincourseTotalItems', mainCourseMenu.length);
+        updateTotalItems('dessertTotalItems', dessertMenu.length);
+    </script>
 </body>
 </html>
