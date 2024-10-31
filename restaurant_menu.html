@@ -32,8 +32,9 @@
         }
 
         .menu-item {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 80px 25px 1fr auto auto;
+            gap: 10px;
             align-items: center;
             padding: 10px;
             border-bottom: 1px solid #eee;
@@ -47,20 +48,24 @@
         .item-number {
             color: #7f8c8d;
             font-size: 0.9em;
-            width: 80px;
         }
 
         .item-name {
-            flex-grow: 1;
-            padding: 0 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding-right: 15px;
+        }
+
+        .special-label {
+            color: #e67e22;
+            font-size: 0.8em;
+            white-space: nowrap;
+            padding-right: 10px;
         }
 
         .item-price {
             color: #27ae60;
             font-weight: bold;
+            text-align: right;
+            min-width: 70px;
         }
 
         .total-items {
@@ -74,16 +79,8 @@
             background-color: #fff3e0;
         }
 
-        .special::after {
-            content: "👨‍🍳 Chef's Special";
-            color: #e67e22;
-            font-size: 0.8em;
-            margin-left: 10px;
-        }
-
         .category-icon {
             font-size: 1.2em;
-            width: 25px;
             text-align: center;
         }
 
@@ -104,6 +101,7 @@
             left: 50%;
             transform: translateX(-50%);
             white-space: nowrap;
+            z-index: 1;
         }
     </style>
 </head>
@@ -165,12 +163,11 @@
             return menuItems.map((item, index) => `
                 <div class="menu-item ${item.special ? 'special' : ''}">
                     <span class="item-number">Item ${index + 1}:</span>
-                    <span class="item-name">
-                        <span class="icon-tooltip category-icon" data-tooltip="${getCategoryTooltip(item.category)}">
-                            <i class="fa-solid ${item.icon}"></i>
-                        </span>
-                        ${item.name}
+                    <span class="category-icon icon-tooltip" data-tooltip="${getCategoryTooltip(item.category)}">
+                        <i class="fa-solid ${item.icon}"></i>
                     </span>
+                    <span class="item-name">${item.name}</span>
+                    ${item.special ? '<span class="special-label">👨‍🍳 Chef\'s Special</span>' : '<span></span>'}
                     <span class="item-price">$${item.price.toFixed(2)}</span>
                 </div>
             `).join('');
