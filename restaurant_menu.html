@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -52,6 +53,9 @@
         .item-name {
             flex-grow: 1;
             padding: 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .item-price {
@@ -75,6 +79,31 @@
             color: #e67e22;
             font-size: 0.8em;
             margin-left: 10px;
+        }
+
+        .category-icon {
+            font-size: 1.2em;
+            width: 25px;
+            text-align: center;
+        }
+
+        .icon-tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .icon-tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -101,31 +130,47 @@
 
     <script>
         const breakfastMenu = [
-            { name: 'Pancakes', price: 12.99, special: true },
-            { name: 'Eggs Benedict', price: 14.99 },
-            { name: 'Oatmeal', price: 8.99 },
-            { name: 'Frittata', price: 13.99 }
+            { name: 'Pancakes', price: 12.99, special: true, category: 'vegetarian', icon: 'fa-leaf' },
+            { name: 'Eggs Benedict', price: 14.99, category: 'protein', icon: 'fa-egg' },
+            { name: 'Oatmeal', price: 8.99, category: 'vegan', icon: 'fa-seedling' },
+            { name: 'Frittata', price: 13.99, category: 'gluten-free', icon: 'fa-wheat-awn-circle-exclamation' }
         ];
 
         const mainCourseMenu = [
-            { name: 'Steak', price: 29.99, special: true },
-            { name: 'Pasta', price: 18.99 },
-            { name: 'Burger', price: 16.99 },
-            { name: 'Salmon', price: 24.99, special: true }
+            { name: 'Steak', price: 29.99, special: true, category: 'protein', icon: 'fa-drumstick-bite' },
+            { name: 'Pasta', price: 18.99, category: 'vegetarian', icon: 'fa-leaf' },
+            { name: 'Burger', price: 16.99, category: 'protein', icon: 'fa-burger' },
+            { name: 'Salmon', price: 24.99, special: true, category: 'seafood', icon: 'fa-fish' }
         ];
 
         const dessertMenu = [
-            { name: 'Cake', price: 8.99 },
-            { name: 'Ice Cream', price: 6.99 },
-            { name: 'Pudding', price: 7.99 },
-            { name: 'Fruit Salad', price: 9.99, special: true }
+            { name: 'Cake', price: 8.99, category: 'vegetarian', icon: 'fa-cake-candles' },
+            { name: 'Ice Cream', price: 6.99, category: 'vegetarian', icon: 'fa-ice-cream' },
+            { name: 'Pudding', price: 7.99, category: 'gluten-free', icon: 'fa-wheat-awn-circle-exclamation' },
+            { name: 'Fruit Salad', price: 9.99, special: true, category: 'vegan', icon: 'fa-apple-whole' }
         ];
+
+        function getCategoryTooltip(category) {
+            const tooltips = {
+                'vegetarian': 'Vegetarian Dish',
+                'vegan': 'Vegan Dish',
+                'gluten-free': 'Gluten-Free Option',
+                'protein': 'High Protein',
+                'seafood': 'Seafood Dish'
+            };
+            return tooltips[category] || category;
+        }
 
         function createMenuHTML(menuItems) {
             return menuItems.map((item, index) => `
                 <div class="menu-item ${item.special ? 'special' : ''}">
                     <span class="item-number">Item ${index + 1}:</span>
-                    <span class="item-name">${item.name}</span>
+                    <span class="item-name">
+                        <span class="icon-tooltip category-icon" data-tooltip="${getCategoryTooltip(item.category)}">
+                            <i class="fa-solid ${item.icon}"></i>
+                        </span>
+                        ${item.name}
+                    </span>
                     <span class="item-price">$${item.price.toFixed(2)}</span>
                 </div>
             `).join('');
