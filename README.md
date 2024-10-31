@@ -6,7 +6,7 @@
 A dynamic restaurant menu display system that showcases different meal courses using vanilla JavaScript! Perfect for restaurants looking to display their menu items in an elegant, web-based format.
 
 <p align="center">
-  <img src="/api/placeholder/800/400" alt="Menu Display Screenshot"/>
+  <img src="https://github.com/JimLucas95338/Array-Iteration-for-Restaurant-Menu-List/blob/main/Screenshot%202024-10-31%20103145.png" alt="Menu Display Screenshot"/>
 </p>
 
 ## ✨ Features
